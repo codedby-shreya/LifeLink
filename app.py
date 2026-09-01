@@ -138,22 +138,6 @@ with st.sidebar:
 
     st.divider()
 
-    st.subheader("🔑 Gemini API Key")
-    api_key_input = st.text_input(
-        "Enter your Gemini API key",
-        type="password",
-        placeholder="AIza…",
-        help="Get your free key at https://aistudio.google.com/app/apikey",
-        value=st.session_state.get("gemini_api_key", ""),
-    )
-    if api_key_input:
-        st.session_state["gemini_api_key"] = api_key_input
-        from utils.ai_helper import init_gemini
-        init_gemini(api_key_input)
-        st.success("API key active ✅", icon="🔑")
-
-    st.divider()
-
     donors_n     = len(st.session_state.get("donors", []))
     recipients_n = len(st.session_state.get("recipients", []))
     matches_n    = len(st.session_state.get("matches", []))

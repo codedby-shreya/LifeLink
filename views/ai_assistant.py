@@ -26,13 +26,9 @@ def render():
     api_key = st.session_state.get("gemini_api_key", "")
 
     if not api_key:
-        st.warning(
-            "⚠️ **Gemini API key not set.**\n\n"
-            "Please enter your Google Gemini API key in the **sidebar** to use the AI assistant."
-        )
-        st.info(
-            "Get your free API key at [Google AI Studio](https://aistudio.google.com/app/apikey). "
-            "It's free for personal use."
+        st.error(
+            "⚠️ **AI Assistant is currently unavailable.** "
+            "Please contact the platform administrator."
         )
         return
 
