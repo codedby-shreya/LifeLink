@@ -1,2 +1,13 @@
+[theme]
+base = "light"
+primaryColor = "#2878B8"
+backgroundColor = "#F6F8F2"
+secondaryBackgroundColor = "#EAF5FB"
+textColor = "#29445A"
+font = "sans serif"
+
 [client]
-showSidebarNavigation = false
+toolbarMode = "minimal"
+
+[server]
+enableXsrfProtection = true

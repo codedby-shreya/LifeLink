@@ -79,3 +79,33 @@ APP_DESCRIPTION = (
 )
 
 GEMINI_MODEL = "gemini-3.6-flash"   # Gemini 3.6 Flash (latest model as of 2026)
+
+
+# ═════════════════════════════════════════════════════════════════════════════
+# Additions for the persistent / redesigned version of LifeLink.
+# Everything above this line (blood rules, urgency weights, SCORE_WEIGHT_*)
+# is unchanged from the original project.
+# ═════════════════════════════════════════════════════════════════════════════
+
+BRAND_NAME      = "LifeLink"
+BRAND_TAGLINE   = "Care connects us all."
+HOME_HEADLINE   = "A little care can change a life."
+EMERGENCY_NUMBER_IN = "112"
+
+GENDERS = ["Male", "Female", "Other"]
+
+# Request lifecycle (unchanged values from the original app)
+REQUEST_STATUSES = ["Open", "In Progress", "Fulfilled", "Cancelled"]
+# Statuses a requester may set themselves with their tracking code
+REQUESTER_SETTABLE_STATUSES = ["Fulfilled", "Cancelled"]
+
+# Match lifecycle (unchanged values from the original app)
+MATCH_STATUSES = ["Pending Contact", "Contacted", "In Progress", "Completed", "Failed"]
+
+# Field limits (also enforced by CHECK constraints in db/schema.sql)
+DONOR_MIN_AGE = 18
+DONOR_MAX_AGE = 65
+NOTES_MAX_LEN = 1000
+
+# Admin session
+ADMIN_IDLE_TIMEOUT_MINUTES = 30

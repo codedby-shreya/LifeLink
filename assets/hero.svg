@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 460" role="img" aria-label="Two hands gently holding a heart with a blood drop">
+  <!-- soft background shapes -->
+  <path d="M96 232c-18-86 52-176 152-190 98-14 204 28 230 118 24 84-22 160-96 206-84 52-210 40-262-34-14-20-22-65-24-100z" fill="#EAF5FB"/>
+  <path d="M388 70c46 6 96 46 108 104 10 50-10 96-52 128-40 30-98 34-134 6 24-30 36-72 30-112-6-40-28-80-52-110 28-20 62-20 100-16z" fill="#DDEFE4"/>
+  <circle cx="86" cy="96" r="10" fill="#75B9B4" opacity=".55"/>
+  <circle cx="494" cy="352" r="14" fill="#2878B8" opacity=".18"/>
+  <circle cx="122" cy="388" r="7" fill="#527C67" opacity=".4"/>
+  <!-- sparkles / plus marks -->
+  <g stroke="#75B9B4" stroke-width="5" stroke-linecap="round">
+    <path d="M452 62v26M439 75h26"/><path d="M70 262v18M61 271h18" stroke="#2878B8" opacity=".5"/>
+  </g>
+  <!-- leaves -->
+  <g fill="#527C67">
+    <path d="M455 200c26-22 56-20 70-6-10 26-40 34-70 6z" opacity=".75"/>
+    <path d="M62 170c20-22 48-22 62-8-10 24-38 32-62 8z" opacity=".6"/>
+  </g>
+  <!-- heart -->
+  <g transform="translate(280 188)">
+    <path d="M0 96C-84 38-112-16-86-62-62-102-10-98 0-58 10-98 62-102 86-62 112-16 84 38 0 96z" fill="#2878B8"/>
+    <path d="M-62-58c10-18 34-22 50-10" stroke="#fff" stroke-opacity=".55" stroke-width="9" stroke-linecap="round" fill="none"/>
+    <!-- drop -->
+    <path d="M0-36C-22-4-34 10-34 28a34 34 0 0 0 68 0C34 10 22-4 0-36z" fill="#FFFDF7"/>
+    <path d="M0-12C-12 6-20 16-20 28a20 20 0 0 0 40 0C20 16 12 6 0-12z" fill="#C96B62"/>
+  </g>
+  <!-- left hand + sleeve -->
+  <g>
+    <path d="M58 396c-10-44 6-84 40-100l44 78-62 50z" fill="#527C67"/>
+    <path d="M122 322c20-34 52-52 92-44 20 4 36 18 44 34l-90 64c-14 8-30 4-38-8z" fill="#E8C4A0"/>
+    <path d="M196 292c28-8 60 4 78 24 6 8 4 18-6 20-30-2-60 2-88 18z" fill="#E8C4A0"/>
+    <path d="M150 360c30-12 70-14 120-6" stroke="#D9AE86" stroke-width="5" fill="none" stroke-linecap="round"/>
+  </g>
+  <!-- right hand + sleeve -->
+  <g>
+    <path d="M502 396c10-44-6-84-40-100l-44 78 62 50z" fill="#2878B8" opacity=".9"/>
+    <path d="M438 322c-20-34-52-52-92-44-20 4-36 18-44 34l90 64c14 8 30 4 38-8z" fill="#C98F6A"/>
+    <path d="M364 292c-28-8-60 4-78 24-6 8-4 18 6 20 30-2 60 2 88 18z" fill="#C98F6A"/>
+    <path d="M410 360c-30-12-70-14-120-6" stroke="#B57A55" stroke-width="5" fill="none" stroke-linecap="round"/>
+  </g>
+  <!-- ground shadow -->
+  <ellipse cx="280" cy="430" rx="170" ry="9" fill="#29445A" opacity=".08"/>
+</svg>
