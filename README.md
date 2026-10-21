@@ -138,3 +138,5 @@ re-enter them through the **Become a Donor** and **Request Blood** forms: valida
 | Admin page says it is switched off | Set `ADMIN_PASSWORD_HASH` in secrets and reboot the app. |
 | Assistant says it is not available | Set `GEMINI_API_KEY`. Busy/quota errors show a *Try again* button. |
 | Data disappears after redeploy | You are on SQLite. Set `DATABASE_URL`. |
+
+**Website link** = https://lifelink-dyvtt99samukjdimfcxbvj.streamlit.app/
