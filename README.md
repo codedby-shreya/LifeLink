@@ -71,6 +71,7 @@ Local: `.env` or `.streamlit/secrets.toml`. Cloud: *App → Settings → Secrets
 |---|---|
 | `DATABASE_URL` | Supabase Postgres connection for the `lifelink_app` role |
 | `ADMIN_PASSWORD_HASH` | PBKDF2 hash from `python scripts/hash_password.py` (`ADMIN_PASSWORD` plain text also works, not recommended) |
+| `ADMIN_EMAIL` | Optional. If set, the admin must enter one of these emails (comma-separated) **and** the password |
 | `GEMINI_API_KEY` | Google Gemini key for the assistant and AI notes (optional) |
 
 ## Deploy on Streamlit Community Cloud
@@ -90,6 +91,8 @@ Local: `.env` or `.streamlit/secrets.toml`. Cloud: *App → Settings → Secrets
 * **Public pages never show** names, phone numbers, emails, patient names, hospital names or medical notes.
   Search results show donor/request ID, blood group, city/state, availability and score only.
 * **Coordinators (admin)** see contact details in the dashboard to arrange introductions.
+* **The Admin Dashboard link is hidden** from the sidebar for everyone except a signed-in admin. The admin signs in at
+  `/admin` (e.g. `https://your-app.streamlit.app/admin`). Hiding the link is only convenience — the real protection is below.
 * **Admin protection is server-side**: login with throttling, 30-minute idle timeout, and every private-data
   function in `utils/db.py` re-checks the admin session (hiding a page is not the control).
 * **Donors / requesters** get a private ID + access code once; only a PBKDF2 hash is stored. Wrong codes are
@@ -120,7 +123,8 @@ re-enter them through the **Become a Donor** and **Request Blood** forms: valida
 * No distance filter: records have city/state, not coordinates (filters are Anywhere / Same state / Same city).
 * "Lives impacted" = requests marked *Fulfilled*; it is not an estimate of recipients per donation.
 * Anyone can *Save match* for an open request and an available donor (it only creates a pending item for coordinators).
-* Admin uses one shared password; there are no per-coordinator accounts. For multiple staff, add Supabase Auth or
+* Admin uses one shared password (optionally restricted by `ADMIN_EMAIL`); the email is a second check, not a verified
+  email login, and there are no per-coordinator accounts. For multiple staff, add Supabase Auth or
   Streamlit's OIDC login.
 * Admin tables load all records into memory — fine for thousands of rows, add pagination beyond that.
 * The Inter font is loaded from Google Fonts; offline it falls back to system sans-serif.

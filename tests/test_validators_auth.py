@@ -68,3 +68,21 @@ def test_admin_session_expires(admin):
     import time
     admin["_admin_until"] = time.time() - 1
     assert auth.is_admin() is False
+
+
+def test_admin_email_allow_list(backend, anon, monkeypatch):
+    monkeypatch.setenv("ADMIN_PASSWORD", "s3cret-password")
+    monkeypatch.setenv("ADMIN_EMAIL", "a@example.com, B@example.com")
+    monkeypatch.setattr(auth.time, "sleep", lambda s: None)
+    assert auth.allowed_admin_emails() == ["a@example.com", "b@example.com"]
+    assert not auth.admin_login("s3cret-password", "")[0]                # right password, no email
+    assert not auth.admin_login("s3cret-password", "c@example.com")[0]   # right password, wrong email
+    assert not auth.admin_login("wrong-password", "a@example.com")[0]    # right email, wrong password
+    assert not auth.is_admin()
+    assert auth.admin_login("s3cret-password", " b@EXAMPLE.com ")[0] and auth.is_admin()
+
+
+def test_admin_login_without_email_setting_still_password_only(backend, anon, monkeypatch):
+    monkeypatch.setenv("ADMIN_PASSWORD", "s3cret-password")
+    monkeypatch.delenv("ADMIN_EMAIL", raising=False)
+    assert auth.admin_login("s3cret-password")[0]

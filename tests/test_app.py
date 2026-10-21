@@ -340,3 +340,47 @@ def test_app_handles_database_outage(monkeypatch):
         assert "can't reach the database" in text_of(at) or "can&#x27;t reach the database" in text_of(at)
     finally:
         database.reset_connections()
+
+
+# ── 8. Admin link is hidden from the public sidebar ──────────────────────────
+
+def sidebar_links(at):
+    return [l.label for l in at.sidebar.get("page_link")]
+
+
+def test_public_sidebar_has_no_admin_link():
+    at = AppTest.from_file(APP, default_timeout=30).run()
+    assert not at.exception
+    links = sidebar_links(at)
+    assert links == ["Home", "Become a Donor", "Request Blood", "Find a Donor", "AI Assistant"]
+    assert "Admin Dashboard" not in links
+
+
+def test_admin_link_appears_only_after_sign_in():
+    at = AppTest.from_file(APP, default_timeout=30)
+    at.session_state["_admin_until"] = time.time() + 600     # simulate a signed-in admin session
+    at.run()
+    assert not at.exception
+    assert sidebar_links(at)[-1] == "Admin Dashboard"
+    at.session_state["_admin_until"] = time.time() - 5        # expired session → link disappears again
+    at.run()
+    assert "Admin Dashboard" not in sidebar_links(at)
+
+
+def test_admin_login_asks_for_email_when_configured(monkeypatch):
+    monkeypatch.setenv("ADMIN_EMAIL", "boss@example.com")
+    monkeypatch.setenv("ADMIN_PASSWORD", "pw-pw-pw-pw-pw")
+    monkeypatch.setattr(auth.time, "sleep", lambda s: None)
+    at = view("admin_dashboard").run()
+    assert [w.label for w in at.text_input] == ["Admin email", "Password"]
+    at.text_input[0].set_value("someone-else@example.com")
+    at.text_input[1].set_value("pw-pw-pw-pw-pw")
+    click(at, "Sign in")
+    at.run()
+    assert "email or password is not correct" in text_of(at)
+    assert "Live overview" not in text_of(at)
+    at.text_input[0].set_value("BOSS@example.com ")            # case/space-insensitive
+    at.text_input[1].set_value("pw-pw-pw-pw-pw")
+    click(at, "Sign in")
+    at.run()
+    assert "Live overview" in text_of(at)

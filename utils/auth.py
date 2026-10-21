@@ -134,17 +134,43 @@ def _check_admin_password(password: str) -> bool:
     return bool(plain) and hmac.compare_digest(password.encode(), plain.encode())
 
 
-def admin_login(password: str) -> tuple[bool, str]:
-    """Returns (success, message). Never reveals whether the password was close."""
+def allowed_admin_emails() -> list[str]:
+    """ADMIN_EMAIL may hold one address or several separated by commas."""
+    raw = database.get_setting("ADMIN_EMAIL")
+    return [e.strip().lower() for e in raw.split(",") if e.strip()]
+
+
+def admin_email_required() -> bool:
+    return bool(allowed_admin_emails())
+
+
+def _check_admin_email(email: str) -> bool:
+    candidate = (email or "").strip().lower()
+    # compare against every allowed address (no early exit) so timing doesn't reveal which matched
+    matched = False
+    for allowed in allowed_admin_emails():
+        matched |= hmac.compare_digest(candidate.encode(), allowed.encode())
+    return matched
+
+
+def admin_login(password: str, email: str = "") -> tuple[bool, str]:
+    """
+    Returns (success, message). If ADMIN_EMAIL is configured, the email must be on
+    the allowed list as well as the password being correct. The message never says
+    which of the two was wrong.
+    """
     if not admin_configured():
         return False, "Administrator access has not been configured on this deployment."
     if is_locked("admin"):
         return False, f"Too many failed attempts. Please wait about {LOCK_WINDOW_MINUTES} minutes and try again."
     ok = _check_admin_password(password or "")
+    if admin_email_required():
+        ok = _check_admin_email(email) and ok
     record_attempt("admin", ok)
     if not ok:
         time.sleep(0.6)  # small fixed delay slows scripted guessing
-        return False, "That password is not correct."
+        return False, ("That email or password is not correct." if admin_email_required()
+                       else "That password is not correct.")
     sess = _session()
     sess["_admin_until"] = time.time() + ADMIN_IDLE_TIMEOUT_MINUTES * 60
     return True, "Signed in."

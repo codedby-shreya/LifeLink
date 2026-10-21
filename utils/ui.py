@@ -107,6 +107,10 @@ a{color:var(--ocean);}
 [data-testid="stSidebarNavLink"]{border-radius:12px;padding:.55rem .8rem;margin:2px 0;color:var(--head);font-weight:500;}
 [data-testid="stSidebarNavLink"]:hover{background:var(--blue-soft);}
 [data-testid="stSidebarNavLink"][aria-current="page"]{background:var(--mint);color:var(--sage);font-weight:700;}
+[data-testid="stSidebar"] [data-testid="stPageLink-NavLink"]{border-radius:12px;padding:.55rem .8rem;margin:2px 0;color:var(--head);font-weight:500;}
+[data-testid="stSidebar"] [data-testid="stPageLink-NavLink"]:hover{background:var(--blue-soft);}
+[data-testid="stSidebar"] [data-testid="stPageLink-NavLink"][aria-current="page"]{background:var(--mint);color:var(--sage);font-weight:700;}
+[data-testid="stSidebar"] [data-testid="stPageLink-NavLink"] p{color:inherit;}
 [data-testid="stSidebar"] hr{border-color:var(--border);}
 .ll-side-note{font-size:.82rem;color:var(--muted);line-height:1.5;padding:.2rem .4rem;}
 

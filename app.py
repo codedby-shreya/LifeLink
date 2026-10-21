@@ -21,7 +21,7 @@ try:  # local development: load .env if python-dotenv is available
 except ImportError:  # pragma: no cover
     pass
 
-from utils import database, db, nav, ui  # noqa: E402
+from utils import auth, database, db, nav, ui  # noqa: E402
 
 ui.inject_css()
 ui.setup_chrome()
@@ -48,9 +48,16 @@ except database.DatabaseUnavailable:
     st.stop()
 
 pages = nav.build_pages()
-page = st.navigation(list(pages.values()))
+# All pages stay routable (so /admin works), but the sidebar is drawn by us:
+# the Admin Dashboard link appears only after an administrator has signed in.
+page = st.navigation(list(pages.values()), position="hidden")
 
 with st.sidebar:
+    for key in ("home", "donor", "request", "matching", "assistant"):
+        st.page_link(pages[key])
+    if auth.is_admin():
+        st.page_link(pages["admin"])
+    st.divider()
     st.markdown(f'<div class="ll-side-note">{BRAND_TAGLINE}<br>In an emergency call <b>112</b> or the treating hospital first.</div>',
                 unsafe_allow_html=True)
 

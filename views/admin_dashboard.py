@@ -37,10 +37,13 @@ def _login() -> None:
     with mid:
         with st.form("admin_login"):
             st.markdown("### Administrator sign-in")
+            email = ""
+            if auth.admin_email_required():
+                email = st.text_input("Admin email", placeholder="you@example.com", max_chars=254)
             pw = st.text_input("Password", type="password", max_chars=200)
             go_ = st.form_submit_button("Sign in", type="primary", use_container_width=True)
         if go_:
-            ok, msg = auth.admin_login(pw)
+            ok, msg = auth.admin_login(pw, email)
             if ok:
                 st.rerun()
             ui.notice("urgent", msg)
